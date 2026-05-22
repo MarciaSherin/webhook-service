@@ -1,7 +1,7 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 
-// ─── Matching ─────────────────────────────────────────────────────────────────
+// Matching
 
 describe('Event type matching', () => {
   // We import inline so tests don't need a running DB
@@ -40,7 +40,7 @@ describe('Event type matching', () => {
   });
 });
 
-// ─── Signing ──────────────────────────────────────────────────────────────────
+// Signing
 
 describe('Payload signing', () => {
   const { sign, verify } = await import('../src/db/signing.js');
@@ -85,7 +85,7 @@ describe('Payload signing', () => {
   });
 });
 
-// ─── Retry policy ─────────────────────────────────────────────────────────────
+// Retry policy
 
 describe('Retry policy', () => {
   const { backoffMs, isRetryable, MAX_ATTEMPTS } = await import('../src/workers/retryPolicy.js');
@@ -138,7 +138,7 @@ describe('Retry policy', () => {
   });
 });
 
-// ─── ID generation ────────────────────────────────────────────────────────────
+// ID generation
 
 describe('ID generation', () => {
   const { newId } = await import('../src/db/ids.js');

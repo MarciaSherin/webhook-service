@@ -5,10 +5,8 @@ import { requireAdminKey } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// All subscription management requires admin key
 router.use(requireAdminKey);
 
-// List all subscriptions
 router.get('/', (req, res) => {
   const subs = db.prepare('SELECT * FROM subscriptions ORDER BY created_at DESC').all();
   res.json(subs.map(s => ({
@@ -19,7 +17,6 @@ router.get('/', (req, res) => {
   })));
 });
 
-// Get a single subscription
 router.get('/:id', (req, res) => {
   const sub = db.prepare('SELECT * FROM subscriptions WHERE id = ?').get(req.params.id);
   if (!sub) return res.status(404).json({ error: 'Not found' });
@@ -32,7 +29,6 @@ router.get('/:id', (req, res) => {
   });
 });
 
-// Create a subscription
 router.post('/', (req, res) => {
   const { target_url, secret, event_types, description } = req.body;
 
@@ -41,7 +37,6 @@ router.post('/', (req, res) => {
     return res.status(400).json({ error: 'event_types must be a non-empty array of patterns' });
   }
 
-  // Validate URL
   try { new URL(target_url); } catch {
     return res.status(400).json({ error: 'target_url must be a valid URL' });
   }
@@ -60,7 +55,6 @@ router.post('/', (req, res) => {
   });
 });
 
-// Update a subscription (partial)
 router.patch('/:id', (req, res) => {
   const sub = db.prepare('SELECT * FROM subscriptions WHERE id = ?').get(req.params.id);
   if (!sub) return res.status(404).json({ error: 'Not found' });
@@ -91,7 +85,6 @@ router.patch('/:id', (req, res) => {
   });
 });
 
-// Delete (deactivate) a subscription
 router.delete('/:id', (req, res) => {
   const sub = db.prepare('SELECT * FROM subscriptions WHERE id = ?').get(req.params.id);
   if (!sub) return res.status(404).json({ error: 'Not found' });

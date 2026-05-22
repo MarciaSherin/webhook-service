@@ -60,10 +60,6 @@ db.exec(`
     ON events(created_at DESC);
 `);
 
-/**
- * Wrapper to run a function inside a BEGIN/COMMIT transaction.
- * Rolls back on error, matching better-sqlite3's .transaction() API.
- */
 export function transaction(fn) {
   return (...args) => {
     db.exec('BEGIN');

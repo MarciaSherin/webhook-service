@@ -1,9 +1,3 @@
-/**
- * Simple single-key admin authentication.
- * Set ADMIN_KEY env var (defaults to 'admin-secret' for local dev).
- * Pass key as: Authorization: Bearer <key>  OR  X-Admin-Key: <key>
- */
-
 const ADMIN_KEY = process.env.ADMIN_KEY || 'admin-secret';
 
 export function requireAdminKey(req, res, next) {
@@ -19,10 +13,8 @@ export function requireAdminKey(req, res, next) {
   res.status(401).json({ error: 'Unauthorized. Provide X-Admin-Key header.' });
 }
 
-/**
- * For the dashboard web UI, check for key in query param or session cookie
- * so a browser can stay authenticated.
- */
+//For the dashboard web UI, check for key in query param or session cookie
+
 export function requireAdminForUI(req, res, next) {
   const queryKey = req.query.key;
   const cookieKey = parseCookies(req)['admin_key'];
